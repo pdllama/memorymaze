@@ -1,7 +1,15 @@
 {
+  "compilerOptions": {
+
+    
+    "paths": {
+      "@Components/*": ["./src/components/*"],
+      "@Types/*": ["./src/types/*"],
+      "@Windows/*": ["./src/windows/*"],
+      "@App/*": ["./src/app/*"]
+    }
+  },
   "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "references": [{"path": "./tsconfig.node.json"}],
+  // "include": ["file"]
 }
