@@ -39,8 +39,20 @@ function generate_maze_board(
             board[i].push({
                 left: j === 0 && i === entrance ? false : true, 
                 right: j === numCols-1 && i === goal ? false : true, 
+                
                 up: true, 
                 down: true, 
+
+                visibleLeft: false,
+                visibleRight: false,
+                visibleUp: false,
+                visibleDown: false,
+
+                backtrackLeftShown: false,
+                backtrackRightShown: false,
+                backtrackUpShown:false,
+                backtrackDownShown:false,
+
                 row: i, col: j, visited: false})
         }
     }

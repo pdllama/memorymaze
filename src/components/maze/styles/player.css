@@ -1,0 +1,147 @@
+
+/*
+move to new accounts for 25% of the motion of the square. we do it this way since if they hit a wall they need a going back animation
+*/
+@keyframes move-to-new-node-right {
+    0% {
+        right: 125%;
+    }
+    100% {
+        right: 25%;
+    }
+}
+
+
+@keyframes move-to-new-node-left {
+    0% {
+        left: 125%;
+    }
+    100% {
+        left: 25%;
+    }
+}
+
+@keyframes move-to-new-node-up {
+    0% {
+        top: 125%;
+    }
+    100% {
+        top: 25%;
+    }
+}
+
+@keyframes move-to-new-node-down {
+    0% {
+        bottom: 125%;
+    }
+    100% {
+        bottom: 25%;
+    }
+}
+
+
+
+
+
+
+@keyframes hit-wall-right {
+    0% {
+        right: 25%;
+    }
+    50% {
+        right: 0%;
+    }
+    100% {
+        right: 25%;
+    }
+}
+
+@keyframes hit-wall-left {
+    0% {
+        left: 25%;
+    }
+    50% {
+        left: 0%;
+    }
+    100% {
+        left: 25%;
+    }
+}
+
+@keyframes hit-wall-up {
+    0% {
+        top: 25%;
+    }
+    50% {
+        top: 0%;
+    }
+    100% {
+        top: 25%;
+    }
+}
+
+@keyframes hit-wall-down {
+    0% {bottom: 25%;}
+    50% {bottom: 0%;}
+    100% {bottom: 25%;}
+}
+
+
+.move-right {
+    animation: move-to-new-node-right 0.1s forwards;
+}
+
+.move-left {
+    animation: move-to-new-node-left 0.1s forwards;
+}
+
+.move-up {
+    animation: move-to-new-node-up 0.1s forwards;
+}
+
+.move-down {
+    animation: move-to-new-node-down 0.1s forwards;
+}
+
+
+
+
+.hit-wall-right, .hit-wall-right-reveal {
+    animation: hit-wall-right 0.1s forwards;
+}
+.hit-wall-left, .hit-wall-left-reveal {
+    animation: hit-wall-left 0.1s forwards;
+}
+.hit-wall-up, .hit-wall-up-reveal {
+    animation: hit-wall-up 0.1s forwards;
+}
+.hit-wall-down, .hit-wall-down-reveal {
+    animation: hit-wall-down 0.1s forwards;
+}
+
+
+
+@keyframes lost-life {
+    0% {
+        position: static;
+    }
+    100% {
+        position: static;
+        width: 0px;
+        height: 0px;
+    }
+}
+
+
+.lose-life-right {
+    animation: hit-wall-right 0.1s forwards, lost-life 1.5s forwards;
+}
+.lose-life-left {
+    animation: hit-wall-left 0.1s forwards, lost-life 1.5s forwards;
+}
+.lose-life-up {
+    animation: hit-wall-up 0.1s forwards, lost-life 1.5s forwards;
+}
+.lose-life-down {
+    animation: hit-wall-down 0.1s forwards, lost-life 1.5s forwards;
+}

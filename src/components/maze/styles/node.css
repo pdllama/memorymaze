@@ -1,0 +1,87 @@
+
+@keyframes travellable-glow {
+    0% {
+        background-color: rgba(50, 200, 220, 0.1);
+        box-shadow: 0px 0px 1px 1px rgba(50, 200, 220, 0.1);
+    }
+    50% {
+        background-color: rgba(50, 200, 220, 0.5);
+        box-shadow: 0px 0px 3px 3px rgba(50, 200, 220, 0.5);
+    }
+    100% {
+        background-color: rgba(50, 200, 220, 0.1);
+        box-shadow: 0px 0px 1px 1px rgba(50, 200, 220, 0.1);
+    }
+}
+
+@keyframes make-right-visible {
+    0% {
+        border-right: none;
+    }
+    50% {
+        border-right: none;
+    }
+    100% {
+        border-right: 1.5px solid white;
+    }
+}
+
+@keyframes make-left-visible {
+    0% {
+        border-left: none;
+    }
+    50% {
+        border-left: none;
+    }
+    100% {
+        border-left: 1.5px solid white;
+    }
+}
+
+@keyframes make-up-visible {
+    0% {
+        border-top: none;
+    }
+    50% {
+        border-top: none;
+    }
+    100% {
+        border-top: 1.5px solid white;
+    }
+}
+
+@keyframes make-down-visible {
+    0% {
+        border-bottom: none;
+    }
+    50% {
+        border-bottom: none;
+    }
+    100% {
+        border-bottom: 1.5px solid white;
+    }
+}
+
+
+.travellable {
+    animation: travellable-glow 2s infinite;
+}
+
+
+.hover-bg:hover {
+    background-color: rgba(50, 200, 220, 0.5);
+}
+
+
+.make-border-right-visible {
+    animation: make-right-visible 0.2s forwards;
+}
+.make-border-left-visible {
+    animation: make-left-visible 0.2s forwards;
+}
+.make-border-up-visible {
+    animation: make-up-visible 0.2s forwards;
+}
+.make-border-down-visible {
+    animation: make-down-visible 0.2s forwards;
+}
