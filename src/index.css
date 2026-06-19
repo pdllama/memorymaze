@@ -10,7 +10,12 @@
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
   --main: #7939C8;
+  --main-lighter: rgba(149, 92, 219, 0.25);
+  --main-darker: #42117d;
   --secondary: #F09023;
+  --secondary-lighter: rgba(227, 150, 64, 0.25);
+  --secondary-darker: #ab5f09;
+
 
 
   font: 18px/145% var(--sans);
@@ -49,7 +54,6 @@
 }
 
 #root {
-  min-width: 100vw;
   text-align: center;
   min-height: 100svh;
   display: flex;
@@ -59,18 +63,19 @@
 
 body {
   margin: 0;
+  container-type: size;
 }
 
-h1, h2, h3, h4, h5, h6, p, button, a {
+h1, h2, h3, h4, h5, h6, p, button, a, input {
   font-family: "Jockey One", sans-serif;
   font-style: normal;
   font-weight: 400;
 }
 
 h1 {
-  font-size: 96px;
+  font-size: 128px;
   @media (max-width: 1024px) {
-    font-size: 48px;
+    font-size: 96px;
     margin: 20px 0;
   }
 }
@@ -84,4 +89,12 @@ h2 {
 }
 p {
   margin: 0;
+}
+
+input[type="range"] {
+  accent-color: var(--secondary);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--secondary);
 }

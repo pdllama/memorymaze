@@ -1,4 +1,4 @@
-import type { Maze, Node, MazeBoard, AdjacentNodes, NodePercentage } from "@Types/maze";
+import type { Maze, Node, MazeBoard, AdjacentNodes } from "@Types/maze";
 import { getRandDirection, getRandIdx } from "./utils";
 
 
@@ -7,7 +7,7 @@ type AdjNodeKeys = keyof AdjacentNodes
 
 export function generate_maze (
     numRows:number, numCols:number,
-    path_snakiness: number
+    path_snakiness: number, visibleBorders:boolean=false
 ): Maze {
 
     const startRow = getRandIdx(numRows);
@@ -16,7 +16,7 @@ export function generate_maze (
     const maze:Maze = {
         numRows, numCols, 
         entrance: startRow, goal: endRow, 
-        board: generate_maze_board(numRows, numCols, path_snakiness, startRow, endRow)
+        board: generate_maze_board(numRows, numCols, path_snakiness, startRow, endRow, visibleBorders)
     }
 
     return maze
@@ -26,7 +26,7 @@ export function generate_maze (
 // Randomized Depth-First-Search Algo to generate the maze
 function generate_maze_board(
     numRows:number, numCols: number, path_snakiness:number,
-    entrance:number, goal:number
+    entrance:number, goal:number, visibleBorders:boolean
 ): MazeBoard {
 
 
@@ -43,10 +43,10 @@ function generate_maze_board(
                 up: true, 
                 down: true, 
 
-                visibleLeft: false,
-                visibleRight: false,
-                visibleUp: false,
-                visibleDown: false,
+                visibleLeft: visibleBorders ? true : false,
+                visibleRight: visibleBorders ? true : false,
+                visibleUp: visibleBorders ? true : false,
+                visibleDown: visibleBorders ? true : false,
 
                 backtrackLeftShown: false,
                 backtrackRightShown: false,

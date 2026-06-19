@@ -1,19 +1,40 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-xxs: 400px;
+  --breakpoint-mdlg: 850px;
+}
+
 .bg-main {
   background-color: var(--main);
+}
+.bg-main-darker {
+  background-color: var(--main-darker);
 }
 
 .bg-secondary {
   background-color: var(--secondary);
 }
+.bg-secondary-darker {
+  background-color: var(--secondary-darker);
+}
+
+.bg-backdrop {
+  background-color: var(--bg);
+}
 
 .text-main {
   color: var(--main);
 }
+.text-main-darker {
+  color: var(--main-darker);
+}
 
 .text-secondary {
   color: var(--secondary);
+}
+.text-secondary-darker {
+  color: var(--secondary-darker);
 }
 
 .hover-text-main:hover {
@@ -34,4 +55,80 @@
   .text-48px {
     font-size: 48px;
   }
+}
+
+
+.border-main {
+  border: 1px solid var(--main);
+}
+.border-main-darker {
+  border: 1px solid var(--main-darker);
+}
+.border-secondary {
+  border: 1px solid var(--secondary);
+}
+.border-secondary-darker { 
+  border: 1px solid var(--secondary-darker);
+}
+
+.is-button:hover {
+  cursor: pointer;
+}
+
+.is-button.bg-main:hover {
+  background-color: var(--main-darker);
+}
+
+.is-button.bg-secondary:hover {
+  background-color: var(--secondary-darker);
+}
+
+.is-button.border-main:hover {
+  background-color: var(--main-lighter);
+}
+.is-button.border-secondary:hover {
+  background-color: var(--secondary-lighter);
+}
+
+.toggle-active.border-main {
+  background-color: var(--main-lighter);
+}
+.toggle-active.border-secondary {
+  background-color: var(--secondary-lighter);
+}
+
+
+.smaller-h1-sizing {
+  font-size: 128px;
+  @media (min-width: 681px) and (max-width: 1024px) {
+    font-size: 96px;
+  }
+  @media (min-width: 641px) and (max-width: 680px) {
+    font-size: 84px;
+  }
+  @media (min-width: 521px) and (max-width: 640px) {
+    font-size: 72px;
+  }
+  @media (min-width: 331px) and (max-width: 520px) {
+    font-size: 52px;
+  }
+  @media (max-width: 330px) {
+    font-size: 32px;
+  }
+}
+
+.custom-selection-h1-sizing {
+  font-size: 72px;
+  margin: 0;
+  @media (min-width: 415px) and (max-width: 768px) {
+    font-size: 48px;
+  }
+  @media (max-width: 414px) {
+    font-size: 36px;
+  }
+}
+
+
+.hover-bg-secondary:hover {
+  background-color: var(--secondary-lighter);
 }

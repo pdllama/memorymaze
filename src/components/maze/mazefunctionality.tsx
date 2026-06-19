@@ -8,6 +8,7 @@ import movePlayer, { movePlayerKeyPress } from "./handlers/moveplayer"
 import { useEffect } from "react"
 import Player from "./player"
 import { setMazeBacktrackLines, setMazeVisibility } from "./handlers/changemazeviews"
+import MazeBoardDisplay from "./mazeboard"
 
 
 type MazeBoardProps = {
@@ -15,22 +16,43 @@ type MazeBoardProps = {
     decrementTries: () => void;
     lives: number|"inf"
     decrementLife: () => void;
+    numRows: number,
+    numCols: number,
+    pathSnakiness: number,
+    backtrackLineShown:boolean
+    timeToShow:number | "inf"
+    isGameOver:boolean
+    goToGameplayState: () => void
+    completeLevel: () => void
+    startTimer: () => void
+    shownMazeState: "shown" | "fading" | "not-shown"
+    setShownMazeState: (mazeState:"shown" | "fading" | "not-shown") => void
 }
 
 let lastKeyTime = 0;
 
 
-export default function Maze({tries, decrementTries, lives, decrementLife}:MazeBoardProps) {
+export default function Maze({tries, decrementTries, lives, decrementLife, numRows, numCols, pathSnakiness, backtrackLineShown, timeToShow, isGameOver, goToGameplayState, completeLevel, startTimer, shownMazeState, setShownMazeState}:MazeBoardProps) {
 
-    const [mazeState, setMazeState] = useState<BoardState>({maze:generate_maze(10, 10, 0.9), playerPosition: "entrance"})
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
+    const [mazeState, setMazeState] = useState<BoardState>({maze:generate_maze(numRows, numCols, pathSnakiness), playerPosition: "entrance"})
     const [transitionState, setTransitionState] = useState<TransitionState>({transition: "none", node_row: -1, node_col: -1, direction: "left", next_row: -1, next_col: -1})
 
+    const shownMazeStateRef = useRef<("shown" | "fading" | "not-shown")>(shownMazeState)
     const playerRef = useRef<HTMLDivElement>(null)
 
     const {maze, playerPosition} = mazeState
 
+    const goToFadingMazeState = () => {
+        setShownMazeState("fading")
+    }
+    const goToNotShownMazeState = () => {
+        setShownMazeState("not-shown");
+        goToGameplayState()
+    }
+
     const movePlayerHandler = (n:Node, direction:Movement, exitMove: boolean) => {
-        if (transitionState.transition.includes('lose-life')) {return}
+        if (transitionState.transition.includes('lose-life') || isGameOver) {return}
         const nextNode = movePlayer(playerPosition, n, direction, exitMove);
         const hasntMoved = nextNode === playerPosition;
         if (hasntMoved) {
@@ -56,13 +78,22 @@ export default function Maze({tries, decrementTries, lives, decrementLife}:MazeB
         } else {
             setTransitionState({...transitionState, transition: `move-${direction}`, node_row: -1, node_col: -1, next_row: -1, next_col: -1})
             const relevantBacktrackLine = nextNode === "goal" ? true : direction === "up" ? nextNode.backtrackDownShown : direction === "down" ? nextNode.backtrackUpShown : direction === "left" ? nextNode.backtrackRightShown : nextNode.backtrackLeftShown
-            const board = !relevantBacktrackLine && true// (if allowed to show backtrack line)
+            const board = !relevantBacktrackLine && backtrackLineShown
                 ? setMazeBacktrackLines(mazeState.maze.board, playerPosition, nextNode, direction) : mazeState.maze.board
             setMazeState({maze: {...mazeState.maze, board}, playerPosition: nextNode === "goal" ? "goal" : board[(nextNode).row][nextNode.col]})
+        }
+        if (shownMazeState === "shown") {
+            goToFadingMazeState()
+            clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>)
+            startTimer()
         }
     }
 
     useEffect(() => {
+        if (playerPosition === "goal") {
+            completeLevel()
+            return;
+        }
         const handleMovement = (e:any) => {
             const direction:Movement|undefined = e.key === "ArrowDown" ? "down" : 
                 e.key === "ArrowUp" ? "up" :
@@ -75,11 +106,11 @@ export default function Maze({tries, decrementTries, lives, decrementLife}:MazeB
                 
                 
                 lastKeyTime = Date.now()
-                if (transitionState.transition.includes("lose-life")) {return}
+                if (transitionState.transition.includes("lose-life") || isGameOver) {return}
                 const nextNode = movePlayerKeyPress(playerPosition, maze, direction);
                 const hasntMoved = nextNode === playerPosition;
                 if (hasntMoved) {
-                    if (!(playerPosition === 'goal') && !(playerPosition === "entrance") && !getVisibilityPosition(playerPosition, direction)) {
+                    if (!(playerPosition === "entrance") && !getVisibilityPosition(playerPosition, direction)) {
                         let lostLife = false;
                         const supposedNextNode = getAdjacentNode(mazeState.maze.board, playerPosition, direction, mazeState.maze.numRows, mazeState.maze.numCols);
                         if (supposedNextNode) {
@@ -101,10 +132,15 @@ export default function Maze({tries, decrementTries, lives, decrementLife}:MazeB
                     // setTransitionState({...transitionState, transition: `move-${direction}`, node_row: -1, node_col: -1, next_row: -1, next_col: -1})
                     // setMazeState({...mazeState, playerPosition: nextNode})
                     setTransitionState({...transitionState, transition: `move-${direction}`, node_row: -1, node_col: -1, next_row: -1, next_col: -1})
-            const relevantBacktrackLine = (nextNode === "entrance" || nextNode === "goal") ? true : direction === "up" ? nextNode.backtrackDownShown : direction === "down" ? nextNode.backtrackUpShown : direction === "left" ? nextNode.backtrackRightShown : nextNode.backtrackLeftShown
-            const board = !relevantBacktrackLine && true// (if allowed to show backtrack line)
-                ? setMazeBacktrackLines(mazeState.maze.board, playerPosition, nextNode, direction) : mazeState.maze.board
-            setMazeState({maze: {...mazeState.maze, board}, playerPosition: nextNode === "goal" ? "goal" : nextNode === "entrance" ? "entrance" : board[(nextNode).row][nextNode.col]})
+                    const relevantBacktrackLine = (nextNode === "entrance" || nextNode === "goal") ? true : direction === "up" ? nextNode.backtrackDownShown : direction === "down" ? nextNode.backtrackUpShown : direction === "left" ? nextNode.backtrackRightShown : nextNode.backtrackLeftShown
+                    const board = !relevantBacktrackLine && backtrackLineShown
+                        ? setMazeBacktrackLines(mazeState.maze.board, playerPosition, nextNode, direction) : mazeState.maze.board
+                    setMazeState({maze: {...mazeState.maze, board}, playerPosition: nextNode === "goal" ? "goal" : nextNode === "entrance" ? "entrance" : board[(nextNode).row][nextNode.col]})
+                }
+                if (shownMazeStateRef.current === "shown") {
+                    goToFadingMazeState()
+                    clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>)
+                    startTimer()
                 }
             }
         }
@@ -123,85 +159,38 @@ export default function Maze({tries, decrementTries, lives, decrementLife}:MazeB
         }
     }, [transitionState.transition])
 
+    // useEffect(() => {
+    //     if (timeToShow !== 'inf') {
+    //         timeoutRef.current = setTimeout(() => {
+    //             goToFadingMazeState()
+    //         }, timeToShow*1000 - 1000)
+    //     }
+    //     return () => clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>)
+    // }, [])
+
+    useEffect(() => {
+        if (shownMazeState === "fading") {
+            setTimeout(() => {
+                goToNotShownMazeState()
+                startTimer()
+            }, 1000)
+        }
+        shownMazeStateRef.current = shownMazeState
+    }, [shownMazeState])
+
     return (
-        <>
-        <style>
-            {`
-                .correct-grid-dims {
-                    grid-template-columns: repeat(${maze.numCols}, 1fr);
-                    grid-template-rows: repeat(${maze.numRows}, 1fr);
-                }
-            `}
-        </style>
-        <div 
-            className='size-fit box-content grid gap-[0px] correct-grid-dims'
-            // style={{gridTemplateColumns: maze.numCols, gridTemplateRows: maze.numRows}}
-        >
-            {maze.board.map((row:Node[], i:number) => {
-
+        <div className="flex justify-center items-start size-[90%] max-h-[650px] px-[20px] sm:px-[10%] xxs:mb-0 mb-[-400px]" style={{containerType: "size"}}>
+        
+            <MazeBoardDisplay 
+                maze={maze}
+                playerPosition={playerPosition}
+                playerRef={playerRef}
+                transitionState={transitionState}
+                movePlayerHandler={movePlayerHandler}
+                shownMazeState={shownMazeState}
                 
-
-                return <>
-                    {row.map((n:Node, j:number) => {
-                        const isEntranceNode = j === 0 && i === maze.entrance;
-                        const isExitNode = j === maze.numCols-1 && i === maze.goal;
-
-                        const {adjacentNode, direction} = isAdjacentNode(
-                            playerPosition === "entrance" || playerPosition === "goal" ? -2 : playerPosition.row,
-                            playerPosition === "entrance" || playerPosition === "goal" ? -2 : playerPosition.col,
-                            n.row,
-                            n.col
-                        )
-
-                        // const isAdjacentNode = isEntranceNode && playerPosition === 'entrance' || 
-                        //     playerPosition !== 'goal' && playerPosition !== 'entrance' && (
-                        //         i === playerPosition.row && (j === playerPosition.col-1 || j === playerPosition.col+1) ||
-                        //         j === playerPosition.col && (i === playerPosition.row-1 || i === playerPosition.row+1)
-                        //     )
-                        // const nodeDirection = isAdjacentNode && (
-                        //     isEntranceNode && playerPosition === 'entrance' ? "right" : 
-
-                        // )
-
-                        const adjDirection = playerPosition === "entrance" && isEntranceNode ? "right" : direction
-                        return <NodeComponent 
-                                isLeftEdge={j === 0 && !isEntranceNode}
-                                isRightEdge={j === maze.numCols-1 && !isExitNode}
-                                isUpEdge={i === 0}
-                                isDownEdge={i === maze.numRows-1}
-                                isEntranceNode={isEntranceNode}
-                                isExitNode={isExitNode}
-                                isAdjacentNode={playerPosition === "entrance" && isEntranceNode ? true : adjacentNode}
-                                adjDirection={adjDirection}
-                                playerPosition={playerPosition}
-                                movePlayer={movePlayerHandler}
-                                transition={
-                                    ((i === transitionState.node_row && j === transitionState.node_col) || (i === transitionState.next_row && j === transitionState.next_col && adjDirection === transitionState.direction)) ?
-                                    transitionState.transition : "none"
-                                }
-                                transitionDirection={transitionState.direction}
-                                node={n}
-                                key={`node-${i}-${j}`}
-                            >
-                            {playerPosition === "entrance" && isEntranceNode &&
-                            <div className="relative right-[100%] size-full absolute flex justify-center items-center">
-                                <Player ref={playerRef} transition={transitionState.transition}/>
-                            </div>
-                            }
-                            
-                            {playerPosition === "goal" && isExitNode &&
-                            <div className="relative left-[100%] size-full absolute flex justify-center items-center">
-                                <Player ref={playerRef} transition={transitionState.transition}/>
-                            </div>
-                            }
-                            {playerPosition === n &&
-                                <Player ref={playerRef} transition={transitionState.transition}/>
-                            }
-                        </NodeComponent>
-                    })}
-                </>
-            })}
+            />
+       
         </div>
-        </>
     )
 }

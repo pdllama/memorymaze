@@ -1,0 +1,21 @@
+
+
+
+@keyframes smooth-fade {
+    0% {
+        opacity: 0%;
+    }
+    10% {
+        opacity: 70%;
+    }
+    90% {
+        opacity: 70%;
+    }
+    100% {
+        opacity: 0%;
+    }
+}
+
+.smooth-fade {
+    animation: smooth-fade 10s infinite;
+}

@@ -1,5 +1,4 @@
 import type { Movement, Node } from "@Types/maze"
-import Player from "./player"
 import "./styles/node.css"
 import { useEffect, useRef, type ReactNode } from "react"
 import { getOppositeDirection, getVisibilityPosition } from "@App/utils"
@@ -19,39 +18,35 @@ type NodeProps = {
     playerPosition: Node|"entrance"|"goal",
     transition: string; transitionDirection: Movement,
     movePlayer: (n:Node, direction:Movement, exitMove:boolean) => void,
+    shownMazeState: "shown" | "fading" | "not-shown"
     children: ReactNode
 }
 
 export default function Node({
     node, 
-    isLeftEdge, isRightEdge, isUpEdge, isDownEdge, 
-    isEntranceNode, isExitNode, 
+    isLeftEdge, isRightEdge, isUpEdge, isDownEdge, isExitNode, 
     isAdjacentNode, adjDirection, movePlayer,
-    transition, transitionDirection,
+    transition, transitionDirection, shownMazeState,
     playerPosition, children
 }:NodeProps) {
 
     const nodeRef = useRef<HTMLDivElement>(null)
     const exitDivRef = useRef<HTMLDivElement>(null)
+    const showMazeRegardless = shownMazeState === "shown"
 
-    const borderL = isLeftEdge ? "border-l-[3px]" : (node.left && node.visibleLeft) ?  "border-l-[1.5px]" : ""
-    const borderR = isRightEdge ? "border-r-[3px]" : (node.right && node.visibleRight) ?  "border-r-[1.5px]" : ""
-    const borderT = isUpEdge ? "border-t-[3px]" : (node.up && node.visibleUp) ? "border-t-[1.5px]" : ""
-    const borderB = isDownEdge ? "border-b-[3px]" : (node.down && node.visibleDown) ? "border-b-[1.5px]" : ""
-
+    const borderL = isLeftEdge ? "border-l-[8cqw]" : (node.left && (node.visibleLeft || showMazeRegardless)) ?  "border-l-[4cqw]" : ""
+    const borderR = isRightEdge ? "border-r-[8cqw]" : (node.right && (node.visibleRight || showMazeRegardless)) ?  "border-r-[4cqw]" : ""
+    const borderT = isUpEdge ? "border-t-[8cqw]" : (node.up && (node.visibleUp || showMazeRegardless)) ? "border-t-[4cqw]" : ""
+    const borderB = isDownEdge ? "border-b-[8cqw]" : (node.down && (node.visibleDown || showMazeRegardless)) ? "border-b-[4cqw]" : ""
 
     const backtrackLeftVisibility = node.backtrackLeftShown ? "visible" : "hidden"
     const backtrackRightVisibility = node.backtrackRightShown ? "visible" : "hidden"
     const backtrackUpVisibility = node.backtrackUpShown ? "visible" : "hidden"
     const backtrackDownVisibility = node.backtrackDownShown ? "visible" : "hidden"
 
-    if (node.row === 9 && node.col === 0) {
-        console.log(node)
-    }
-
     useEffect(() => {
         const timeout = setTimeout(() => {
-            if (isAdjacentNode && !getVisibilityPosition(node, getOppositeDirection(adjDirection as Movement))) {
+            if (isAdjacentNode && !getVisibilityPosition(node, getOppositeDirection(adjDirection as Movement)) && !showMazeRegardless) {
                 const divNode = nodeRef.current as HTMLDivElement;
                 divNode.classList.add("travellable");
             }
@@ -67,11 +62,12 @@ export default function Node({
     return (
         <div 
             className={`
-                h-[40px] w-[40px] flex justify-center items-center relative 
+                min-h-[20px] min-w-[20px] flex justify-center items-center relative aspect-square
                 
                 ${(isAdjacentNode && !getVisibilityPosition(node, getOppositeDirection(adjDirection as Movement))) ? "hover:cursor-pointer hover-bg" : ""}
             `}
             onClick={isAdjacentNode ? () => {movePlayer(node, adjDirection as Movement, false)} : undefined}
+            style={{containerType: "size"}}
             id={`node-${node.row}-${node.col}`}
             ref={nodeRef}
         >
@@ -82,6 +78,15 @@ export default function Node({
                     ${transition !== 'none' ? isAdjacentNode ? `make-border-${getOppositeDirection(transitionDirection)}-visible` : `make-border-${transitionDirection}-visible` : ""} 
                     border-white p-0
                 `}
+                style={!(shownMazeState === "fading") ? {} : {
+                    animation: `
+                        ${node.left && !isLeftEdge ? "fade-left-border 1s forwards" : ""} 
+                        ${node.right && !isRightEdge  ? `${node.left && !isLeftEdge ? ", " : ""}fade-right-border 1s forwards` : ""}
+                        ${node.up && !isUpEdge ? `${(node.left && !isLeftEdge) || (node.right && !isRightEdge) ? ", " : ""}fade-up-border 1s forwards` : ""}
+                        ${node.down && !isDownEdge ? `${(node.left && !isLeftEdge) || (node.right && !isRightEdge) || (node.up && !isUpEdge) ? ", " : ""}fade-down-border 1s forwards` : ""}
+                         
+                        `
+                }}
             >
 
             </div>

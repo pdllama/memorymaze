@@ -22,7 +22,7 @@
         border-right: none;
     }
     100% {
-        border-right: 1.5px solid white;
+        border-right: 4cqw solid white;
     }
 }
 
@@ -34,7 +34,7 @@
         border-left: none;
     }
     100% {
-        border-left: 1.5px solid white;
+        border-left: 4cqw solid white;
     }
 }
 
@@ -46,7 +46,7 @@
         border-top: none;
     }
     100% {
-        border-top: 1.5px solid white;
+        border-top: 4cqw solid white;
     }
 }
 
@@ -58,7 +58,7 @@
         border-bottom: none;
     }
     100% {
-        border-bottom: 1.5px solid white;
+        border-bottom: 4cqw solid white;
     }
 }
 
@@ -85,3 +85,53 @@
 .make-border-down-visible {
     animation: make-down-visible 0.2s forwards;
 }
+
+
+@keyframes fade-right-border {
+    0% {
+        border-right: 4cqw solid rgba(255, 255, 255, 1);
+    }
+    100% {
+        border-right: 4cqw solid rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes fade-left-border {
+    0% {
+        border-left: 4cqw solid rgba(255, 255, 255, 1);
+    }
+    100% {
+        border-left: 4cqw solid rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes fade-up-border {
+    0% {
+        border-top: 4cqw solid rgba(255, 255, 255, 1);
+    }
+    100% {
+        border-top: 4cqw solid rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes fade-down-border {
+    0% {
+        border-bottom: 4cqw solid rgba(255, 255, 255, 1);
+    }
+    100% {
+        border-bottom: 4cqw solid rgba(255, 255, 255, 0);
+    }
+}
+
+/* .fade-right-border {
+    animation: fade-right-border 1s forwards;
+}
+.fade-left-border {
+    animation: fade-left-border 1s forwards;
+}
+.fade-up-border {
+    animation: fade-up-border 1s forwards;
+}
+.fade-down-border {
+    animation: fade-down-border 1s forwards;
+} */
