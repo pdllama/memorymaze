@@ -107,13 +107,13 @@ export default function GameSection({sessionConfig, isCustom, backToMainMenu, ba
                     </div>
                     {sessionConfig.maxTries !== "inf" ? 
                     <div className='w-full h-full flex justify-center mdlg:justify-end items-center gap-[5px] flex-wrap'>
-                        {[...Array(gameState.tries)].map((_:any, i:number) => {
+                        {[...Array(gameState.tries)].map((_:any) => {
                             
                             return (
                                 <img src="icons/red heart.png" width="30px" height="30px"/>
                             )
                         })}
-                        {[...Array(sessionConfig.maxTries-(gameState.tries as number))].map((_:any, i:number) => {
+                        {[...Array(sessionConfig.maxTries-(gameState.tries as number))].map((_:any) => {
 
                             return (
                                 <img src="icons/empty heart.png" width="30px" height="30px"/>
@@ -128,13 +128,11 @@ export default function GameSection({sessionConfig, isCustom, backToMainMenu, ba
                 <Maze 
                     tries={gameState.tries} 
                     decrementTries={decrementTries} 
-                    lives={gameState.lives}
                     decrementLife={decrementLife}
                     numRows={gameState.currNumRows}
                     numCols={gameState.currNumCols}
                     pathSnakiness={sessionConfig.path_snakiness}
                     backtrackLineShown={sessionConfig.backtrackLine}
-                    timeToShow={sessionConfig.timeToSee}
                     goToGameplayState={() => setGameState((value:GameState) => {return {...value, display: "gameplay"}})}
                     completeLevel={() => setGameState({...gameState, display: gameState.level === sessionConfig.maxLevel ? "session-complete" : "level-complete"})}
                     startTimer={() => setTimerActive(true)}

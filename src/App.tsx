@@ -1,8 +1,6 @@
 
 import MazeGame from '@Windows/MazeGame'
-import Maze from "@Components/maze/mazefunctionality"
 import './App.css'
-import GameSection from '@Windows/GameSection'
 import { useState } from 'react'
 import Leaderboard from '@Components/leaderboards/leaderboard'
 

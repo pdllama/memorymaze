@@ -106,22 +106,6 @@
   @media (max-width: 330px) {
     font-size: 32px;
   }
-  /* font-size: 128px;
-  @media (min-width: 681px) and (max-width: 1024px) {
-    font-size: 96px;
-  }
-  @media (min-width: 641px) and (max-width: 680px) {
-    font-size: 84px;
-  }
-  @media (min-width: 521px) and (max-width: 640px) {
-    font-size: 72px;
-  }
-  @media (min-width: 331px) and (max-width: 520px) {
-    font-size: 52px;
-  }
-  @media (max-width: 330px) {
-    font-size: 32px;
-  } */
 }
 
 .custom-selection-h1-sizing {

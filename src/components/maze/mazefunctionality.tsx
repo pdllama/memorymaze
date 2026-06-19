@@ -1,12 +1,10 @@
-import type { Maze, MazeBoard, Movement, Node } from "@Types/maze"
-import NodeComponent from "./node"
-import { getAdjacentNode, getOppositeDirection, getVisibilityPosition, isAdjacentNode, walkingIntoEdgeNode } from "@App/utils"
+import type { Maze, Movement, Node } from "@Types/maze"
+import { getAdjacentNode, getVisibilityPosition} from "@App/utils"
 import { useRef, useState } from "react"
 import { generate_maze } from "@App/mazegenerator"
 import { type TransitionState, type BoardState } from "@Types/gamestate"
 import movePlayer, { movePlayerKeyPress } from "./handlers/moveplayer"
 import { useEffect } from "react"
-import Player from "./player"
 import { setMazeBacktrackLines, setMazeVisibility } from "./handlers/changemazeviews"
 import MazeBoardDisplay from "./mazeboard"
 
@@ -14,13 +12,11 @@ import MazeBoardDisplay from "./mazeboard"
 type MazeBoardProps = {
     tries: number|"inf"
     decrementTries: () => void;
-    lives: number|"inf"
     decrementLife: () => void;
     numRows: number,
     numCols: number,
     pathSnakiness: number,
     backtrackLineShown:boolean
-    timeToShow:number | "inf"
     isGameOver:boolean
     goToGameplayState: () => void
     completeLevel: () => void
@@ -32,7 +28,7 @@ type MazeBoardProps = {
 let lastKeyTime = 0;
 
 
-export default function Maze({tries, decrementTries, lives, decrementLife, numRows, numCols, pathSnakiness, backtrackLineShown, timeToShow, isGameOver, goToGameplayState, completeLevel, startTimer, shownMazeState, setShownMazeState}:MazeBoardProps) {
+export default function Maze({tries, decrementTries, decrementLife, numRows, numCols, pathSnakiness, backtrackLineShown, isGameOver, goToGameplayState, completeLevel, startTimer, shownMazeState, setShownMazeState}:MazeBoardProps) {
 
     const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
     const [mazeState, setMazeState] = useState<BoardState>({maze:generate_maze(numRows, numCols, pathSnakiness), playerPosition: "entrance"})
