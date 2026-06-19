@@ -1,4 +1,4 @@
-import type { Maze, MazeBoard, Movement, Node, PlayerPosition } from "@Types/maze";
+import type { Maze, Movement, Node, PlayerPosition } from "@Types/maze";
 
 
 export default function movePlayer(
