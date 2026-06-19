@@ -13,7 +13,7 @@ type CustomSelectionProps = {
 export default function CustomSelection({startGame, backToMainMenu, sessionConfig, setSessionConfig}:CustomSelectionProps) {
 
     return (
-        <div className="size-full max-w-[1000px] gap-5 sm:gap-10 flex flex-col items-center">
+        <div className="size-full max-w-[1000px] gap-3 flex flex-col items-center">
             <div className="w-full p-4 flex text-main"><h1 className="w-full text-center custom-selection-h1-sizing">Level Customization</h1></div>
             <div className="grid grid-cols-1 md:grid-cols-2 place-items-center w-full max-w-[700px] gap-[20px]">
                 <div className="flex size-full justify-center items-center gap-2 text-white">

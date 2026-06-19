@@ -179,7 +179,7 @@ export default function Maze({tries, decrementTries, lives, decrementLife, numRo
     }, [shownMazeState])
 
     return (
-        <div className="flex justify-center items-start size-[90%] max-h-[650px] px-[20px] sm:px-[10%] xxs:mb-0 mb-[-400px]" style={{containerType: "size"}}>
+        <div className="flex justify-center items-start size-[100%] min-h-[350px] max-h-[650px] px-[20px] sm:px-[10%] xxs:mb-0 mb-[-400px]" style={{containerType: "size"}}>
         
             <MazeBoardDisplay 
                 maze={maze}

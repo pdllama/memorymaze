@@ -34,7 +34,7 @@ export default function DifficultySelection({startGame, backToMainMenu}:Difficul
                         isToggle={true}
                         toggleActive={difficulty === "easy"}
                     >
-                        <p className="text-3xl xxs:text-5xl sm:text-7xl text-black">Easy</p>
+                        <p className="text-3xl text-black">Easy</p>
                     </Button>
                     <Button
                         onClick={() => setDifficulty("medium")}
@@ -42,7 +42,7 @@ export default function DifficultySelection({startGame, backToMainMenu}:Difficul
                         isToggle={true}
                         toggleActive={difficulty === "medium"}
                     >
-                        <p className="text-3xl xxs:text-5xl sm:text-7xl text-black">Medium</p>
+                        <p className="text-3xl text-black">Medium</p>
                     </Button>
                     <Button
                         onClick={() => setDifficulty("hard")}
@@ -50,7 +50,7 @@ export default function DifficultySelection({startGame, backToMainMenu}:Difficul
                         isToggle={true}
                         toggleActive={difficulty === "hard"}
                     >
-                        <p className="text-3xl xxs:text-5xl sm:text-7xl text-black">Hard</p>
+                        <p className="text-3xl text-black">Hard</p>
                     </Button>
                     <Button
                         onClick={() => setDifficulty("extreme")}
@@ -58,14 +58,14 @@ export default function DifficultySelection({startGame, backToMainMenu}:Difficul
                         isToggle={true}
                         toggleActive={difficulty === "extreme"}
                     >
-                        <p className="text-3xl xxs:text-5xl sm:text-7xl text-black">Extreme</p>
+                        <p className="text-3xl text-black">Extreme</p>
                     </Button>
                 </div>
                 <div className="w-full sm:w-[50%] h-fit flex flex-col items-start px-5">
                     {difficultyAttributes[difficulty].map((att:string, i:number) => {
 
                         return (
-                            <p className="text-2xl xxs:text-3xl sm:text-4xl text-white text-left" key={`${difficulty}-attribute-${i}`}>
+                            <p className="text-2xl xxs:text-3xl text-white text-left" key={`${difficulty}-attribute-${i}`}>
                                 ○ {att}
                             </p>
                         )

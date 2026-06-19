@@ -40,7 +40,7 @@ export default function MazeGame({}) {
     }, [gameScreen])
 
     return (
-        <div className='w-full h-[850px] flex flex-col justify-center items-center'>
+        <div className={`w-full ${gameScreen === "game-screen" ? "h-[750px]" : ""} max-h-[850px] flex flex-col justify-center items-center p-5`}>
             {gameScreen === "title" ? 
                 <TitleScreen goToDifficultySelection={() => setGameScreen("difficulty-selection")} goToCustomSelection={() => setGameScreen("custom-selection")}/> : 
             gameScreen === "difficulty-selection" ? 

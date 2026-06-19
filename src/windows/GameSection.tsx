@@ -76,7 +76,7 @@ export default function GameSection({sessionConfig, isCustom, backToMainMenu, ba
 
     return (
         <div 
-            className='w-full max-w-[1200px] h-full p-[10px] flex flex-col justify-start items-center relative overflow-hidden' 
+            className='w-full max-w-[1200px] min-h-[600px] p-[10px] size-full flex flex-col justify-start items-center relative overflow-hidden' 
             style={{containerType: "size"}}
         >
             {gameState.display === "level-display" ? 
@@ -87,16 +87,16 @@ export default function GameSection({sessionConfig, isCustom, backToMainMenu, ba
                 </div>
             </> : 
             <>
-            <div className={`flex size-full flex-col justify-start items-center gap-[40px] relative ${(gameState.display === "level-complete" || gameState.display === "session-complete" || gameState.display === "game-over") ?  'blur-md' : ''}`}>
-                <div className={`flex flex-col mdlg:flex-row h-fit w-full gap-[10px] mdlg:gap-0`}>
+            <div className={`flex size-full flex-col justify-start size-full items-center gap-[20px] relative ${(gameState.display === "level-complete" || gameState.display === "session-complete" || gameState.display === "game-over") ?  'blur-md' : ''}`}>
+                <div className={`flex flex-col justify-start items-center mdlg:flex-row w-full gap-[10px] mdlg:gap-0`}>
                     <div className='size-full mdlg:size-fit flex justify-center items-center text-white gap-[20px]'>
-                        <h2 className="text-nowrap">Level {gameState.level}</h2>
+                        <p className="text-nowrap text-[36px]">Level {gameState.level}</p>
                         <div className='size-fit flex justify-center items-center gap-[3px]'>
-                            <div className='size-[40px] w-[50px] relative h-full flex justify-center items-center'>
+                            <div className='size-[32px] w-[32px] relative h-full flex justify-center items-center'>
                                 <Player classes="size-full"/>
                                 
                             </div>
-                        <p className='text-[36px] lg:text-[48px]'>x{gameState.lives === "inf" ? "∞" : gameState.lives}</p>
+                        <p className='text-[20px] lg:text-[32px]'>x{gameState.lives === "inf" ? "∞" : gameState.lives}</p>
                         <div className="ml-5">
                         {!timerActive ? 
                             <CountDown startTime={sessionConfig.timeToSee} countDown={shownMazeState !== "not-shown"} action={() => setShownMazeState("not-shown")} action1Second={() => setShownMazeState("fading")}/> : 
@@ -110,13 +110,13 @@ export default function GameSection({sessionConfig, isCustom, backToMainMenu, ba
                         {[...Array(gameState.tries)].map((_:any, i:number) => {
                             
                             return (
-                                <img src="icons/red heart.png" width="50px" height="50px"/>
+                                <img src="icons/red heart.png" width="30px" height="30px"/>
                             )
                         })}
                         {[...Array(sessionConfig.maxTries-(gameState.tries as number))].map((_:any, i:number) => {
 
                             return (
-                                <img src="icons/empty heart.png" width="50px" height="50px"/>
+                                <img src="icons/empty heart.png" width="30px" height="30px"/>
                             )
                         })}
                     </div> : 
@@ -142,7 +142,7 @@ export default function GameSection({sessionConfig, isCustom, backToMainMenu, ba
                     isGameOver={gameState.display === "game-over"}
                     setShownMazeState={(mazeState:"shown"|"fading"|"not-shown") => setShownMazeState(mazeState)}
                 />
-                <div className="flex w-full p-1 flex-col-reverse md:flex-row xxs:items-center relative flex-1">
+                <div className="flex w-full h-fit p-1 flex-col-reverse md:flex-row xxs:items-center relative flex-1">
                     <div className="flex justify-center items-center h-fit w-full md:w-[25%] md:gap-0 gap-2">
                         <Button
                             onClick={backToMainMenu}

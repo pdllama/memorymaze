@@ -12,7 +12,7 @@ export default function TitleScreen({goToDifficultySelection, goToCustomSelectio
 
 
     return (
-        <div className="size-full flex justify-center items-center relative overflow-hidden">
+        <div className="size-full flex justify-center items-center relative overflow-hidden py-[100px]">
             <div aria-hidden className="absolute inset-0 flex justify-center items-center" style={{containerType: "size"}}><ChangingMazeBackground/> </div>
             <div className="bg-backdrop w-[80%] min-w-fit max-w-[800px] z-5 min-h-[fit] max-h-[700px] opacity-100 flex flex-col items-center gap-[40px] p-5 pb-7">
                 <h1 className="text-main">Memory Maze</h1>

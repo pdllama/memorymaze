@@ -99,7 +99,14 @@
 
 
 .smaller-h1-sizing {
-  font-size: 128px;
+  font-size: 72px;
+  @media (min-width: 331px) and (max-width: 520px) {
+    font-size: 52px;
+  }
+  @media (max-width: 330px) {
+    font-size: 32px;
+  }
+  /* font-size: 128px;
   @media (min-width: 681px) and (max-width: 1024px) {
     font-size: 96px;
   }
@@ -114,7 +121,7 @@
   }
   @media (max-width: 330px) {
     font-size: 32px;
-  }
+  } */
 }
 
 .custom-selection-h1-sizing {
@@ -131,4 +138,38 @@
 
 .hover-bg-secondary:hover {
   background-color: var(--secondary-lighter);
+}
+
+.leaderboard-page-heading {
+  font-size: 72px;
+  @media (max-width: 400px) {
+    font-size: 48px;
+  }
+}
+
+.leaderboard {
+  color: black;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.easy-leaderboard {
+  background-color: #51FF4B;
+}
+.medium-leaderboard {
+  background-color: #E7F51F;
+}
+.hard-leaderboard {
+  background-color: #FB7916;
+}
+.extreme-leaderboard {
+  background-color: #ED2626;
+}
+
+.leaderboard-item {
+ background-color: #633706;
+}
+
+.leaderboard-item:nth-child(even) {
+  background-color: #965306;
 }

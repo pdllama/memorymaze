@@ -3,9 +3,12 @@ import MazeGame from '@Windows/MazeGame'
 import Maze from "@Components/maze/mazefunctionality"
 import './App.css'
 import GameSection from '@Windows/GameSection'
+import { useState } from 'react'
+import Leaderboard from '@Components/leaderboards/leaderboard'
 
 function App() {
   
+  const [page, setPage] = useState<"play"|"leaderboards">("play");
 
   return (
     <>
@@ -16,19 +19,21 @@ function App() {
         <div className='size-fit p-[10px] flex justify-center w-full sm:justify-end'>
           <button 
             className='size-fit p-[10px] relative border-none hover-text-secondary hover:bottom-[3px] text-3xl hover:cursor-pointer' 
-            onClick={() => {}}
+            onClick={() => setPage("play")}
           >
             Play
           </button>
           <button 
             className='size-fit p-[10px] relative border-none hover-text-secondary hover:bottom-[3px] text-3xl hover:cursor-pointer'
-            onClick={() => {}}
+            onClick={() => setPage("leaderboards")}
           >
             Leaderboards
           </button>
         </div>
         
      </div>
+     {page === "play" ?
+     <>
      <MazeGame/>
      <div className="w-full flex flex-col items-center bg-main text-[24px] text-white gap-4 px-5 sm:px-15 md:px-25 lg:px-50 py-15">
       <p>
@@ -43,6 +48,17 @@ function App() {
         Challenge the mazes and try to get high on the leaderboards!
       </p>
      </div>
+     </> : 
+     <div className="w-full flex flex-col items-center text-[24px] text-white gap-4 px-5 ">
+        <h1 className="leaderboard-page-heading">Leaderboards</h1>
+        <div className="flex justify-center items-center size-fit flex-wrap gap-5">
+          <Leaderboard difficulty={"easy"} names={[]}/>
+          <Leaderboard difficulty={"medium"} names={[]}/>
+          <Leaderboard difficulty={"hard"} names={[]}/>
+          <Leaderboard difficulty={"extreme"} names={[]}/>
+        </div>
+     </div>
+     }
      
     </>
   )
